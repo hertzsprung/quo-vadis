@@ -1,0 +1,135 @@
+\documentclass{article}
+\usepackage[paperwidth=6in,paperheight=4in,margin=0in]{geometry}
+\usepackage{mathptmx}%{times}
+\usepackage{graphicx}
+\usepackage{siunitx}
+\usepackage{color}
+\usepackage{helvet}
+\usepackage{amsmath}
+\usepackage[EULERGREEK]{sansmath}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{kbordermatrix}
+
+\renewcommand{\familydefault}{\sfdefault}
+\sansmath
+
+\setlength{\parindent}{0pt}
+\begin{document}
+
+\begin{equation*}
+	\phi = a_1 + a_2 x + a_3 y + a_4 x^2 + a_5 x y + a_6 y^2 + a_7 x^3 + a_8 x^2 y + a_9 x y^2
+\end{equation*}
+
+\begin{equation*}
+	\phi = \textcolor{red}{a_1} + \textcolor{red}{a_2} x + 
+	\textcolor{red}{a_3} y + \textcolor{red}{a_4} x^2 + 
+	\textcolor{red}{a_5} x y + \textcolor{red}{a_6} y^2 + 
+	\textcolor{red}{a_7} x^3 + \textcolor{red}{a_8} x^2 y + \textcolor{red}{a_9} x y^2
+\end{equation*}
+
+\begin{alignat*}{9}
+	\phi_1 &= \textcolor{red}{a_1} &+ \textcolor{red}{a_2} x_1 &+ 
+	\textcolor{red}{a_3} y_1 &+ \textcolor{red}{a_4} x_1^2 &+ 
+	\textcolor{red}{a_5} x_1 y_1 &+ \textcolor{red}{a_6} y_1^2 &+ 
+	\textcolor{red}{a_7} x_1^3 &+ \textcolor{red}{a_8} x_1^2 y_1 &+ \textcolor{red}{a_9} x_1 y_1^2 \\
+	\phi_2 &= \textcolor{red}{a_2} &+ \textcolor{red}{a_2} x_2 &+ 
+	\textcolor{red}{a_3} y_2 &+ \textcolor{red}{a_4} x_2^2 &+ 
+	\textcolor{red}{a_5} x_2 y_2 &+ \textcolor{red}{a_6} y_2^2 &+ 
+	\textcolor{red}{a_7} x_2^3 &+ \textcolor{red}{a_8} x_2^2 y_2 &+ \textcolor{red}{a_9} x_2 y_2^2 \\
+	\vdots \\
+	\phi_{12} &= \textcolor{red}{a_{12}} &+ \textcolor{red}{a_{12}} x_{12} &+ 
+	\textcolor{red}{a_3} y_{12} &+ \textcolor{red}{a_4} x_{12}^2 &+ 
+	\textcolor{red}{a_5} x_{12} y_{12} &+ \textcolor{red}{a_6} y_{12}^2 &+ 
+	\textcolor{red}{a_7} x_{12}^3 &+ \textcolor{red}{a_8} x_{12}^2 y_{12} &+ \textcolor{red}{a_9} x_{12} y_{12}^2 \\
+\end{alignat*}
+
+\newpage
+
+% c1 = (0, 0)
+\begin{equation*}
+	\kbordermatrix{
+		& \mathrm{constant} & x & y & x^2 & x y & y^2 & x^3 & x^2 y & x y^2 \\
+		c_1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		c_2 &  &  &  &  &  &  &  &  &  \\
+		    & \textcolor{white}{\vdots} &  &  &  &  &  &  &  &  \\
+		c_{12} & \textcolor{white}{1} & \textcolor{white}{x_{12}} & \textcolor{white}{y_{12}} & \textcolor{white}{x_{12}^2} & \textcolor{white}{x_{12} y_{12}} & \textcolor{white}{y_{12}^2}& \textcolor{white}{x_{12}^3}& \textcolor{white}{x_{12}^2 y_{12}} & \textcolor{white}{x_{12} y_{12}^2} \\
+	}
+	\begin{bmatrix}
+		a_1 \\
+		a_2 \\
+		a_3 \\
+		a_4 \\
+		a_5 \\
+		a_6 \\
+		a_7 \\
+		a_8 \\
+		a_9
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		\phi_1 \\
+		\phi_2 \\
+		\vdots \\
+		\phi_{12}
+	\end{bmatrix}
+\end{equation*}
+
+% c2 = (4, 1)
+\begin{equation*}
+	\kbordermatrix{
+		& \mathrm{constant} & x & y & x^2 & x y & y^2 & x^3 & x^2 y & x y^2 \\
+		c_1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		c_2 & 1 & 4 & 1 & 16 & 4 & 1 & 64 & 16 & 4 \\
+		    & \textcolor{white}{\vdots} &  &  &  &  &  &  &  &  \\
+		c_{12} & \textcolor{white}{1} & \textcolor{white}{x_{12}} & \textcolor{white}{y_{12}} & \textcolor{white}{x_{12}^2} & \textcolor{white}{x_{12} y_{12}} & \textcolor{white}{y_{12}^2}& \textcolor{white}{x_{12}^3}& \textcolor{white}{x_{12}^2 y_{12}} & \textcolor{white}{x_{12} y_{12}^2} \\
+	}
+	\begin{bmatrix}
+		a_1 \\
+		a_2 \\
+		a_3 \\
+		a_4 \\
+		a_5 \\
+		a_6 \\
+		a_7 \\
+		a_8 \\
+		a_9
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		\phi_1 \\
+		\phi_2 \\
+		\vdots \\
+		\phi_{12}
+	\end{bmatrix}
+\end{equation*}
+
+\begin{equation*}
+	\kbordermatrix{
+		& \mathrm{constant} & x & y & x^2 & x y & y^2 & x^3 & x^2 y & x y^2 \\
+		c_1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		c_2 & 1 & 4 & 1 & 16 & 4 & 1 & 64 & 16 & 4 \\
+		    & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+		c_{12} & 1 & x_{12} & y_{12} & x_{12}^2 & x_{12} y_{12} & y_{12}^2 & x_{12}^3 & x_{12}^2 y_{12} & x_{12} y_{12}^2 \\
+	}
+	\begin{bmatrix}
+		a_1 \\
+		a_2 \\
+		a_3 \\
+		a_4 \\
+		a_5 \\
+		a_6 \\
+		a_7 \\
+		a_8 \\
+		a_9
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		\phi_1 \\
+		\phi_2 \\
+		\vdots \\
+		\phi_{12}
+	\end{bmatrix}
+\end{equation*}
+
+\end{document}

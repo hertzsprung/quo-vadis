@@ -1,15 +1,16 @@
 Introduction
 ------------
 
-* 1+ slide of some atmospheric flows in which mountains are important (one smallscale, one mid scale, one large scale?)
-* BTF mesh
-* SLEVE mesh
-* ASAM cut cell mesh
+DONE 1+ slide of some atmospheric flows in which mountains are important (one smallscale, one mid scale, one large scale?)
+DONE BTF mesh
+DONE SLEVE mesh
+DONE ASAM cut cell mesh
+DONE "and others" mesh
 * Pressure gradient errors on BTF
 * Pressure gradient errors on ASAM cut cell
 * Horizontal advection errors on BTF
 * Horizontal advection errors on ASAM cut cell
-* ASAM cut cell mesh again, highlighting small cells
+DONE ASAM cut cell mesh again, highlighting small cells
 
 Slanted cell meshes
 -------------------
@@ -20,8 +21,8 @@ Multidimensional advection scheme
 ---------------------------------
 
 * slide with (continuous) flux form advection equation, and spatial discretisation leaving phi\_F unspecified
-* slide with 12-point stencil (with some TF style cells), and polynomial equation
-* slide showing how we use the mesh geometry to construct a matrix equation (put the polynomial equation at the top)
+DONE slide with 12-point stencil (with some TF style cells), and polynomial equation
+DONE slide showing how we use the mesh geometry to construct a matrix equation (put the polynomial equation at the top)
 * rotating animation of polynomial surface from gnuplot (pausing for a while after a rotation)
 
 * slanted cell mesh with stencil for face near the boundary overlayed

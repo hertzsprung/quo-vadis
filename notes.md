@@ -4,12 +4,14 @@ TODO: make sure we quantify errors in all the results we present
 Introduction
 ------------
 
+* explain outline
 * Mountains are important in atmospheric flows at all scales: give some examples
 * We model flow around mountains by solving the equations of motion using numerical schemes on meshes that represent the terrain and the air above it
 * So, I have been looking at ways to improve meshes and numerical schemes
 * What numerical errors are associated with orography: advection errors, horizontal pressure gradient errors
 * there has been a desire to make grids more orthogonal to reduce these errors
 * Introduce TF (BTF, and SLEVE) and cut cell meshes
+* other meshes exist, too! (show slide)
 * Show an example of pressure gradient errors with resting atmosphere animations (on BTF and ASAM cut cell meshes if possible)
 * Show an example of advection errors with horizontal advection animations (on BTF and ASAM cut cell meshes if possible)
 * So more orthogonal grids can reduce numerical errors
