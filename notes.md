@@ -89,7 +89,7 @@ We presented some new techniques for improving simulated flow around mountains:
 1. a new slanted cell mesh 
    - simple to construct
    - allows longer timesteps than cut cell meshes
-   - has smaller pressure gradient errors than TF meshes
+   - has smaller pressure gradient errors than TF meshes (TODO: can I squeeze this result in somewhere?)
 
 2. an explicit, Eulerian, multidimensional advection scheme
    - mostly insensitive to grid distortions

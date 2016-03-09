@@ -1,0 +1,3 @@
+ffmpeg -i advection-horizontal-btf.ogv \
+       -c:v wmv2 -preset veryslow  -q:v 5 \
+       advection-horizontal-btf.wmv

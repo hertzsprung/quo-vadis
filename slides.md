@@ -8,8 +8,8 @@ DONE ASAM cut cell mesh
 DONE "and others" mesh
 * Pressure gradient errors on BTF
 * Pressure gradient errors on ASAM cut cell
-* Horizontal advection errors on BTF
-* Horizontal advection errors on ASAM cut cell
+DONE Horizontal advection errors on BTF
+DONE Horizontal advection errors on ASAM cut cell
 DONE ASAM cut cell mesh again, highlighting small cells
 
 Slanted cell meshes
@@ -20,13 +20,12 @@ Slanted cell meshes
 Multidimensional advection scheme
 ---------------------------------
 
-* slide with (continuous) flux form advection equation, and spatial discretisation leaving phi\_F unspecified
+DONE slide with (continuous) flux form advection equation, and spatial discretisation leaving phi\_F unspecified
 DONE slide with 12-point stencil (with some TF style cells), and polynomial equation
 DONE slide showing how we use the mesh geometry to construct a matrix equation (put the polynomial equation at the top)
 * rotating animation of polynomial surface from gnuplot (pausing for a while after a rotation)
 
-* slanted cell mesh with stencil for face near the boundary overlayed
-* spacebar-driven animation of column-by-column full-rank matrix construction
+DONE spacebar-driven animation of column-by-column rank-deficient matrix construction
 
 Thermal advection test
 ----------------------

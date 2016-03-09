@@ -1,5 +1,5 @@
 \documentclass{article}
-\usepackage[paperwidth=6in,paperheight=4in,margin=0in]{geometry}
+\usepackage[paperwidth=6in,paperheight=14in,margin=0in]{geometry}
 \usepackage{mathptmx}%{times}
 \usepackage{graphicx}
 \usepackage{siunitx}
@@ -15,6 +15,11 @@
 \sansmath
 
 \setlength{\parindent}{0pt}
+\definecolor{c1}{RGB}{27,158,119}
+\definecolor{c2}{RGB}{217,95,2}
+\definecolor{c3}{RGB}{117,112,179}
+\definecolor{c9}{RGB}{231,41,138}
+\definecolor{desel}{RGB}{212,212,212}
 \begin{document}
 
 \begin{equation*}
@@ -131,5 +136,174 @@
 		\phi_{12}
 	\end{bmatrix}
 \end{equation*}
+
+\newpage
+
+
+\begin{alignat*}{2}
+	\frac{\partial \phi}{\partial t} &+ \nabla \cdot \left( \bm{u} \phi \right) &= 0 \\
+	\frac{\partial \phi}{\partial t} &+ \frac{1}{V} \int_V \nabla \cdot \phi \:\mathrm{d}V &= 0 \\
+	\frac{\partial \phi}{\partial t} &+ \frac{1}{V} \int_{\partial V} \phi \bm{u} \cdot \:\mathrm{d}\bm{S} &= 0 \\
+	\frac{\partial \phi}{\partial t} &+ \frac{1}{V} \sum_\mathrm{f} \phi_F \bm{u}_f \cdot \bm{S}_f &= 0
+\end{alignat*}
+
+\newpage
+
+% build rank-deficient matrix
+
+\begin{equation*}
+	\kbordermatrix{
+		    & \mathrm{constant} & x & y & x^2 & x y & y^2 & x^3 & x^2 y & x y^2 \\
+		\textcolor{c1}{c_1} & 1 &  &  & &  &  &  &  &  \\
+		\textcolor{c2}{c_2} & 1 &  &  &  &  &  & & & \\
+		\textcolor{c3}{c_3} & 1 &  &  &  &  &  &  \\
+															       & \vdots & \textcolor{white}{8} & \textcolor{white}{7} & \textcolor{white}{64} & \textcolor{white}{56} & \textcolor{white}{49} & \textcolor{white}{12x_{2}^2 - \quad32x_{2}}& \textcolor{white}{448} & \textcolor{white}{392}  \\
+		\textcolor{c9}{c_9} & 1 & &  &  &  & & & &  \\
+	}
+	\bm{a}
+	=
+	\bm{\phi}
+\end{equation*}
+
+\begin{equation*}
+	\kbordermatrix{
+		    & \mathrm{constant} & x & y & x^2 & x y & y^2 & x^3 & x^2 y & x y^2 \\
+		\textcolor{c1}{c_1} & 1 & \textcolor{c1}{0} &  & &  &  &  &  &  \\
+		\textcolor{c2}{c_2} & 1 & \textcolor{c2}{4} &  &  &  &  & & & \\
+		\textcolor{c3}{c_3} & 1 & \textcolor{c3}{8} &  &  &  &  &  \\
+															       & \vdots & \vdots & \textcolor{white}{7} & \textcolor{white}{64} & \textcolor{white}{56} & \textcolor{white}{49} & \textcolor{white}{12x_{2}^2 - \quad32x_{2}}& \textcolor{white}{448} & \textcolor{white}{392}  \\
+		\textcolor{c9}{c_9} & 1 & \textcolor{c9}{8} &  &  &  & & & &  \\
+	}
+	\bm{a}
+	=
+	\bm{\phi}
+\end{equation*}
+
+\begin{equation*}
+	\kbordermatrix{
+		    & \mathrm{constant} & x & y & x^2 & x y & y^2 & x^3 & x^2 y & x y^2 \\
+		\textcolor{c1}{c_1} & 1 & \textcolor{c1}{0} & \textcolor{c1}{0} & &  &  &  &  &  \\
+		\textcolor{c2}{c_2} & 1 & \textcolor{c2}{4} & \textcolor{c2}{1} &  &  &  & & & \\
+		\textcolor{c3}{c_3} & 1 & \textcolor{c3}{8} & \textcolor{c3}{3} &  &  &  &  \\
+															       & \vdots & \vdots & \vdots & \textcolor{white}{64} & \textcolor{white}{56} & \textcolor{white}{49} & \textcolor{white}{12x_{2}^2 - \quad32x_{2}}& \textcolor{white}{448} & \textcolor{white}{392}  \\
+		\textcolor{c9}{c_9} & 1 & \textcolor{c9}{8} & \textcolor{c9}{7} &  &  & & & &  \\
+	}
+	\bm{a}
+	=
+	\bm{\phi}
+\end{equation*}
+
+\begin{equation*}
+	\kbordermatrix{
+		    & \mathrm{constant} & x & y & x^2 & x y & y^2 & x^3 & x^2 y & x y^2 \\
+		\textcolor{c1}{c_1} & 1 & \textcolor{c1}{0} & \textcolor{c1}{0} & 0 &  &  &  &  &  \\
+		\textcolor{c2}{c_2} & 1 & \textcolor{c2}{4} & \textcolor{c2}{1} & 16 &  &  & & & \\
+		\textcolor{c3}{c_3} & 1 & \textcolor{c3}{8} & \textcolor{c3}{3} & 64 &  &  &  \\
+		   & \vdots & \vdots & \vdots & \vdots & \textcolor{white}{56} & \textcolor{white}{49} & \textcolor{white}{12x_{3}^2 - \quad32x_{3}}& \textcolor{white}{448} & \textcolor{white}{392}\\
+		\textcolor{c9}{c_9} & 1 & \textcolor{c9}{8} & \textcolor{c9}{7} & 64 &  & & & &  \\
+	}
+	\bm{a}
+	=
+	\bm{\phi}
+\end{equation*}
+
+\begin{equation*}
+	\kbordermatrix{
+		    & \mathrm{constant} & x & y & x^2 & x y & y^2 & x^3 & x^2 y & x y^2 \\
+		\textcolor{c1}{c_1} & 1 & \textcolor{c1}{0} & \textcolor{c1}{0} & 0 & 0 &  &  &  &  \\
+		\textcolor{c2}{c_2} & 1 & \textcolor{c2}{4} & \textcolor{c2}{1} & 16 & 4 &  & & & \\
+		\textcolor{c3}{c_3} & 1 & \textcolor{c3}{8} & \textcolor{c3}{3} & 64 & 24 &  &  \\
+									      & \vdots & \vdots & \vdots & \vdots & \vdots & \textcolor{white}{49} & \textcolor{white}{12x_{3}^2 - \quad32x_{3}}& \textcolor{white}{448} & \textcolor{white}{392} \\
+		\textcolor{c9}{c_9} & 1 & \textcolor{c9}{8} & \textcolor{c9}{7} & 64 & 56 & & & &  \\
+	}
+	\bm{a}
+	=
+	\bm{\phi}
+\end{equation*}
+
+\begin{equation*}
+	\kbordermatrix{
+		    & \mathrm{constant} & x & y & x^2 & x y & y^2 & x^3 & x^2 y & x y^2 \\
+		\textcolor{c1}{c_1} & 1 & \textcolor{c1}{0} & \textcolor{c1}{0} & 0 & 0 & 0 &  &  &  \\
+		\textcolor{c2}{c_2} & 1 & \textcolor{c2}{4} & \textcolor{c2}{1} & 16 & 4 & 1 & & & \\
+		\textcolor{c3}{c_3} & 1 & \textcolor{c3}{8} & \textcolor{c3}{3} & 64 & 24 & 9 &  \\
+	 & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \textcolor{white}{12x_{3}^2 - \quad32x_{3}}& \textcolor{white}{448} & \textcolor{white}{392} \\
+		\textcolor{c9}{c_9} & 1 & \textcolor{c9}{8} & \textcolor{c9}{7} & 64 & 56 & 49 & & &  \\
+	}
+	\bm{a}
+	=
+	\bm{\phi}
+\end{equation*}
+
+\begin{equation*}
+	\kbordermatrix{
+		    & \mathrm{constant} & x & y & x^2 & x y & y^2 & x^3 & x^2 y & x y^2 \\
+		\textcolor{c1}{c_1} & 1 & \textcolor{c1}{0} & \textcolor{c1}{0} & 0 & 0 & 0 & 0 &  &  \\
+		\textcolor{c2}{c_2} & 1 & \textcolor{c2}{4} & \textcolor{c2}{1} & 16 & 4 & 1 & 64 & & \\
+		\textcolor{c3}{c_3} & 1 & \textcolor{c3}{8} & \textcolor{c3}{3} & 64 & 24 & 9 & 512 \\
+		  & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \textcolor{white}{12x_{3}^2 - \quad32x_{3}} & \textcolor{white}{448} & \textcolor{white}{392} \\
+		\textcolor{c9}{c_9} & 1 & \textcolor{c9}{8} & \textcolor{c9}{7} & 64 & 56 & 49 & 512 & &  \\
+	}
+	\bm{a}
+	=
+	\bm{\phi}
+\end{equation*}
+
+\begin{equation*}
+	\kbordermatrix{
+		    & \mathrm{constant} & x & y & x^2 & x y & y^2 & x^3 & x^2 y & x y^2 \\
+		\textcolor{c1}{c_1} & 1 & \textcolor{c1}{0} & \textcolor{c1}{0} & 0 & 0 & 0 & 12 x_1^2 - 32x_1 &  &  &  \\
+		\textcolor{c2}{c_2} & 1 & \textcolor{c2}{4} & \textcolor{c2}{1} & 16 & 4 & 1 & 12 x_2^2 - 32x_2 & & \\
+		\textcolor{c3}{c_3} & 1 & \textcolor{c3}{8} & \textcolor{c3}{3} & 64 & 24 & 9 & 12 x_3^2 - 32x_3 & &  \\
+		& \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \textcolor{white}{\vdots} & \textcolor{white}{448} & \textcolor{white}{392} \\
+		\textcolor{c9}{c_9} & 1 & \textcolor{c9}{8} & \textcolor{c9}{7} & 64 & 56 & 49 & 12 x_9^2 - 32x_9 & &  \\
+	}
+	\bm{a}
+	=
+	\bm{\phi}
+\end{equation*}
+
+\begin{equation*}
+	\kbordermatrix{
+		& \mathrm{constant} & x & y & x^2 & x y & y^2 & \textcolor{desel}{x^3} & x^2 y & x y^2 \\
+		\textcolor{c1}{c_1} & 1 & \textcolor{c1}{0} & \textcolor{c1}{0} & 0 & 0 & 0 & \textcolor{desel}{12 x_1^2 - 32x_1} &  &  &  \\
+	\textcolor{c2}{c_2} & 1 & \textcolor{c2}{4} & \textcolor{c2}{1} & 16 & 4 & 1 & \textcolor{desel}{12 x_2^2 - 32x_2} & & \\
+		\textcolor{c3}{c_3} & 1 & \textcolor{c3}{8} & \textcolor{c3}{3} & 64 & 24 & 9 & \textcolor{desel}{12 x_3^2 - 32x_3}  \\
+			     & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \textcolor{desel}{\vdots} & & \\
+		\textcolor{c9}{c_9} & 1 & \textcolor{c9}{8} & \textcolor{c9}{7} & 64 & 56 & 49 & \textcolor{desel}{12 x_9^2 - 32x_9} & \textcolor{white}{448} & \textcolor{white}{392} \\
+	}
+	\bm{a}
+	=
+	\bm{\phi}
+\end{equation*}
+
+\begin{equation*}
+	\kbordermatrix{
+		& \mathrm{constant} & x & y & x^2 & x y & y^2 & \textcolor{desel}{x^3} & x^2 y & x y^2 \\
+		\textcolor{c1}{c_1} & 1 & \textcolor{c1}{0} & \textcolor{c1}{0} & 0 & 0 & 0 & \textcolor{desel}{12 x_1^2 - 32x_1} & 0 &  &  \\
+	\textcolor{c2}{c_2} & 1 & \textcolor{c2}{4} & \textcolor{c2}{1} & 16 & 4 & 1 & \textcolor{desel}{12 x_2^2 - 32x_2} & 16 & \\
+		\textcolor{c3}{c_3} & 1 & \textcolor{c3}{8} & \textcolor{c3}{3} & 64 & 24 & 9 & \textcolor{desel}{12 x_3^2 - 32x_3} & 192 \\
+			     & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \textcolor{desel}{\vdots} & \vdots & \\
+		\textcolor{c9}{c_9} & 1 & \textcolor{c9}{8} & \textcolor{c9}{7} & 64 & 56 & 49 & \textcolor{desel}{12 x_9^2 - 32x_9} & 448 & \textcolor{white}{392} \\
+	}
+	\bm{a}
+	=
+	\bm{\phi}
+\end{equation*}
+
+\begin{equation*}
+	\kbordermatrix{
+		& \mathrm{constant} & x & y & x^2 & x y & y^2 & \textcolor{desel}{x^3} & x^2 y & x y^2 \\
+		\textcolor{c1}{c_1} & 1 & \textcolor{c1}{0} & \textcolor{c1}{0} & 0 & 0 & 0 & \textcolor{desel}{12 x_1^2 - 32x_1} & 0 & 0 &  \\
+	\textcolor{c2}{c_2} & 1 & \textcolor{c2}{4} & \textcolor{c2}{1} & 16 & 4 & 1 & \textcolor{desel}{12 x_2^2 - 32x_2} & 16 & 4 \\
+		\textcolor{c3}{c_3} & 1 & \textcolor{c3}{8} & \textcolor{c3}{3} & 64 & 24 & 9 & \textcolor{desel}{12 x_3^2 - 32x_3} & 192 & 72 \\
+			     & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \textcolor{desel}{\vdots} & \vdots & \vdots \\
+		\textcolor{c9}{c_9} & 1 & \textcolor{c9}{8} & \textcolor{c9}{7} & 64 & 56 & 49 & \textcolor{desel}{12 x_9^2 - 32x_9} & 448 & 392 \\
+	}
+	\bm{a}
+	=
+	\bm{\phi}
+\end{equation*}
+
 
 \end{document}

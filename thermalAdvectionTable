@@ -1,0 +1,6 @@
+h0=1000m, dz=250 thermalAdvection
+
+max Courant numbers/l2 errors
+dt	BTF (fixed)			BTF (adaptive)		slantedCell (fixed)	slantedCell (adaptive)	cutCell (fixed)		cutCell (adaptive)
+	Co	l2			l2			Co	l2		l2			Co	l2		l2
+1.5	0.0719	.00009754922831293241				0.109	unstable				0.839	unstable	
