@@ -1,66 +1,114 @@
-TODO: be punchier about what's new, why it's important --> impacts
-TODO: make sure we quantify errors in all the results we present
-
 Introduction
 ------------
 
-* explain outline
-* Mountains are important in atmospheric flows at all scales: give some examples
+* introduce title of talk
+
 * We model flow around mountains by solving the equations of motion using numerical schemes on meshes that represent the terrain and the air above it
 * So, I have been looking at ways to improve meshes and numerical schemes
-* What numerical errors are associated with orography: advection errors, horizontal pressure gradient errors
-* there has been a desire to make grids more orthogonal to reduce these errors
-* Introduce TF (BTF, and SLEVE) and cut cell meshes
-* other meshes exist, too! (show slide)
-* Show an example of pressure gradient errors with resting atmosphere animations (on BTF and ASAM cut cell meshes if possible)
-* Show an example of advection errors with horizontal advection animations (on BTF and ASAM cut cell meshes if possible)
-* So more orthogonal grids can reduce numerical errors
-* BUT there are other difficulties: cut cell meshes suffer from the 'small cell problem' which limits the timestep we can take for explicit numerical schemes
+
+* explain outline
+  - I'll illustrate just a few effects that orography has on the weather
+  - I'll discuss some existing types of mesh, and the types of numerical errors that arise when we model flow over orography
+  - I'll present a new type of mesh, the "slanted cell" mesh, and talk about some of its advantages over existing mesh types
+  - I'll describe an advection scheme that is suitable for any type of mesh, and how I'm currently improving it
+  - I will present a new advection test and evaluate results of the advection scheme on several types of mesh, including the new "slanted cell" mesh
+
+Effects of orography on the weather
+-----------------------------------
+* Mountains are important in altering atmospheric flows
+
+Rain shadow
+- Pictured: Agasthiyamalai hills, India
+
+Thermally-driven circulation
+- Pictured: Salt Lake Valley
+Generates flows along valleys, and up and down slopes
+
+Downslope windstorms
+- High-amplitude gravity waves can create very strong flows
+- Pictured: Boulder windstorms 1969, 130mph
+
+Meshes & numerical error
+------------------------
+
+* first, let's consider meshes
+* it is often true that distortions in a mesh lead to larger numerical errors
+* hence, there has been a desire to make meshes more orthogonal
+* introduce TF (BTF, and SLEVE) and cut cell meshes
+* not all meshes are orthogonal, other meshes exist, too! (show slide)
+
+* what numerical errors are associated with orography?
+1. pressure gradient errors
+   - we will demonstrate this with an idealised, 2D test
+   - idealised wave-like mountain profile
+   - stratified atmosphere initially at rest
+   - distortions in the mesh cause errors calculating the pressure gradient
+   - give rise to spurious circulations
+* Show an example of pressure gradient errors with resting atmosphere animations (on BTF and cut cell meshes)
+
+2. advection errors
+   - define a tracer "blob" and advect it horizontally above another idealised mountain range
+   - the true, analytic solution preserves its shape and intensity
+* Show an example of advection errors with horizontal advection animations (on BTF and cut cell meshes)
+  - these results use a centred finite volume advection scheme
+  - notice a computational mode: grid-scale waves travelling in the opposite direction, typical of centred schemes
+
+* So, these tests suggest that more orthogonal grids can reduce numerical errors
+* BUT there are other difficulties: (show slide) cut cell meshes suffer from the 'small cell problem' which limits the timestep we can take for explicit numerical schemes
 * there are existing techniques to alleviate the small cell problem that involve modifying the mesh or the numerical schemes
-* AND, we can perform other idealised tests that reveal errors that can appear on cut cell meshes
+* later in the talk, I will show another difficulty with cut cell meshes
 
-Today I will be focusing on idealised, 2D advection tests:
+* (show section conclusion slide), conclude section #2
 
-* I'll present a new type of mesh, the slanted cell mesh and talk about some of its advantages over TF and cut cell meshes
-* I'll describe the advection scheme we are using, and how I'm currently improving it
-* I will present a new advection test and evaluate results of the advection scheme on terrain following, cut cell and slanted cell meshes
 
 
 Slanted cell meshes
 -------------------
 
-* An alternative way of alleviating the small cell problem
-* Demonstrate how we construct a slanted cell mesh (I'd love to do this with props)
-* We avoid creating very small cells when we move vertices down
-* Thin cells are long in the direction of the flow
+* I wanted to create a mesh that reduces pressure gradient errors and advection errors
+* AND avoid the small cell problem associated with cut cell meshes
+* show example of a slanted cell mesh over another idealised mountain
+* constructed by moving vertices up/down, snapping them to the terrain
+* (show with wind field) -- unlike cut cell meshes, the thin cells are still long in the direction of the flow
+
+* (show section conclusion slide), conclude section #3
 
 
 Multidimensional advection scheme
 ---------------------------------
 
-We are using the finite volume method on arbitrary meshes.  This means we can use the same numerical scheme and compare results on different mesh types.
+I am using the finite volume method on arbitrary meshes.  This means we can use the same numerical scheme and compare results on different mesh types.
 
 Explicit, Eulerian, multidimensional advection scheme
 
-* we use the finite volume method, solving the flux form of the advection equation
-* hence, we must approximate the value at the face using known values at surrounding cell centres (TODO: a little bit of maths might help to show why this is necessary)
+* we solve the flux form of the advection equation
+* hence, we must approximate the value at the face using known values at surrounding cell centres
+
 * in the interior of domain, away from the boundaries, we fit a polynomial surface over a 12-point stencil (show slide with stencil and polynomial equation)
 * in 2D, the polynomial is cubic in x, quadratic in y, giving us an equation with nine unknown coefficients (point to equation)
-* hence, this problem is overspecified, and we use Singular Value Decomposition to provide a least squares fit (probably need to show some maths here about how we construct the matrix)
-* show animated example from gnuplot of a polynomial surface, notice how the surface does not go exactly through every point
+* (next slide) hence, this problem is overspecified and we must use a least squares approach to fit the polynomial surface
+
+* show animated example from gnuplot of a polynomial surface
+  - green crosses are our known values of some tracer, T
+  - notice how the surface does not go exactly through every point
 * we estimate the value at the face by reading off the value from the polynomial surface
+  - this is the yellow lollipop in the animation
 
-Near the boundaries, we may not have sufficient data to fit the entire polynomial
-* show slide with example of slanted cell mesh, highlighting the face and prevailing wind direction, and what stencil data we have
+* Near the boundaries, we may not have sufficient data to fit the entire polynomial
+  - (show inlet boundary slide) we have 9 knowns and 9 unknowns, ASK AUDIENCE: do you think, then, that we can fit this polynomial?
+  - (next slide) answer: NO, we don't have sufficient information to fit the x^3 term
+  - (next slide) as well as the inlet boundary, there may not be enough data near the lower boundary
+    * in this example, heavy purple lines show faces where we cannot fit all 9 terms
+
 * I'm currently modifying the advection scheme to cope with such situations and identify which terms of polynomial to remove
-* Returning to our matrix equation, the problem becomes the identification of linearly dependent columns (remind people what this means, and what column rank/full rank/rank deficiency mean on the whiteboard)
-* We do this by constructing the matrix one column at a time, and checking if the matrix is still full rank.  We omit any terms that cause the matrix to become rank-deficient.
 
-This aspect is work-in-progress, and I'll show some preliminary results in the next part of the talk.
+* (show section conclusion slide), conclude section #4
+  - this "adaptive polynomial fit" is work-in-progress, and I'll show some preliminary results later in the talk
 
 
 Thermal advection test
 ----------------------
+
 We'll compare the accuracy of the multidimensional advection scheme on our new slanted cell mesh against BTF and cut cell meshes using a newly formulated advection test.
 
 Early we saw an advection test of a tracer blob in a horizontal wind field.  We have formulated a new advection test:
@@ -73,33 +121,59 @@ Early we saw an advection test of a tracer blob in a horizontal wind field.  We 
 	- has advection at the lower boundary
 	- has a wind field that has a vertical as well as horizontal component.  This presents a challenge to the advection scheme on more orthogonal meshes.
 
-Present results with h0=1km, dz=250m on BTF, ASAM cut cell and slanted cell mesh, without adaptive polynomial fits.
+**Results**
 
-TODO: unstable result on slanted cell mesh.  Now show that adaptive polynomial fit makes the solution stable.  TODO: animations of fixed/adaptive results on slanted cell mesh might be nice.
+* First, let's look at results without using the new "adaptive polynomial fit"
+  - these are plots of the difference between numerical and analytic solutions
+  - colour scale ranges from -1 to +1
 
-TODO: what is the max timestep on each mesh? (and so, have we addressed the small cell problem?)
+  - small errors on BTF mesh
+  - much larger errors on slanted cell mesh
+  - (next slide) solution is unstable on the cut cell mesh -- there's that computational mode again: grid scale oscillations travelling against the wind
+
+* So, does the new "adaptive polynomial fit" improve stability and accuracy?
+  - (next slide) YES: solution is now stable on the cut cell mesh
+  - errors are much smaller on the slanted cell mesh (compared with bottom panel)
+
+* (show summary table) Summarize: 
+  - this test present little challenge to the BTF meshes
+  - but it does challenge the more orthogonal meshes
+  - we need to use the adaptive polynomial fit to achieve stability and improve accuracy
+
+* These results used Courant numbers very close to 1 (the maximum permitted)
+  - (show timestep slide) slanted cell meshes allow timesteps comparable to BTF, avoids the small cell problem on the cut cell mesh
+
+* So why not use the BTF grid?
+  - we need to remember those pressure gradient errors
+  - (show slide) spurious circulations on the slanted cell mesh are even smaller than the cut cell mesh!
+
+
+Numerical representation of orography in dynamical cores
+--------------------------------------------------------
+
+We've looked at:
+1. some effects that orography has on the weather
+2. some existing types of mesh, and looked at advection errors and pressure gradient errors
+3. we presented a new "slanted cell mesh" that seeks to reduce these errors
+4. and an "adaptive polynomial fit" to improve stability and accuracy of our advection scheme
+5. we evaluated our advection scheme and our slanted cell mesh in a new advection test
 
 
 Conclusions
 -----------
 
-(TODO: need to get all these results, but hopefully...)
+We've shown that:
+1. the new slanted cell mesh
+   - allows much longer timesteps than cut cell meshes
+   - has smaller pressure gradient errors than BTF or cut cell meshes
 
-We presented some new techniques for improving simulated flow around mountains:
-1. a new slanted cell mesh 
-   - simple to construct
-   - allows longer timesteps than cut cell meshes
-   - has smaller pressure gradient errors than TF meshes (TODO: can I squeeze this result in somewhere?)
-
-2. an explicit, Eulerian, multidimensional advection scheme
-   - mostly insensitive to grid distortions
-   - mostly insensitive to misalignment of the flow with the grid
-   - improvements to stability and boundary treatment are underway
-
-TODO: can I make this punchier?  impacts?  inform choice of advection scheme for Dynamo at Met Office?
+2. the new "adaptive polynomial fit" provides better stability and accuracy for the multidimensional advection scheme
 
 
 Next steps
 ----------
 
-* Charney--Phillips for arbitrary meshes? (somewhat disconnected from the rest of this talk!)
+* we're taking a more rigorous approach to make advection scheme stable and more accurate, using von Neumann stability analysis
+* next, I will move towards a full dynamical core suitable for arbitrary meshes
+* I want to formulate a new staggering of variables that is free from computational modes
+* and extend the multidimensional advection scheme for use on these meshes
