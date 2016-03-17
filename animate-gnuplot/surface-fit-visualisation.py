@@ -39,13 +39,8 @@ phis = np.array([0.4, 0.3, 0.9, 0.5, \
 
 w_pts = np.ones_like(phis)
 w_nomials = np.ones(9)
-#w_nomials[0] = 1000
-#w_nomials[0] = 1000
-#w_pts[6] = 1000
-#w_pts[7] = 1000
 
-#print("set terminal wxt")
-print("set terminal pngcairo size 1280,768 font 'sans-serif,18'")
+print("set terminal pngcairo size 520,320 font 'sans-serif,12'")
 print("set output 'plot{suffix}.png'".format(suffix=suffix))
 print("unset key")
 xs = [pt[0] for pt in pts]
@@ -55,8 +50,6 @@ print("set yrange [{ymin}:{ymax}]".format(ymin=min(ys), ymax=max(ys)))
 print("""set xlabel 'x'
 set ylabel 'z'
 set zlabel 'T'
-set xtics offset 0,-0.5
-set ytics offset 1,0
 set xyplane 0
 set xzeroaxis
 set yzeroaxis

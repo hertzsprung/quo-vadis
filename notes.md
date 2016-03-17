@@ -17,9 +17,6 @@ Effects of orography on the weather
 -----------------------------------
 * Mountains are important in altering atmospheric flows
 
-Rain shadow
-- Pictured: Agasthiyamalai hills, India
-
 Thermally-driven circulation
 - Pictured: Salt Lake Valley
 Generates flows along valleys, and up and down slopes
@@ -40,10 +37,6 @@ Meshes & numerical error
 * what numerical errors are associated with orography?
 1. pressure gradient errors
    - we will demonstrate this with an idealised, 2D test
-   - idealised wave-like mountain profile
-   - stratified atmosphere initially at rest
-   - distortions in the mesh cause errors calculating the pressure gradient
-   - give rise to spurious circulations
 * Show an example of pressure gradient errors with resting atmosphere animations (on BTF and cut cell meshes)
 
 2. advection errors
@@ -58,8 +51,6 @@ Meshes & numerical error
 * there are existing techniques to alleviate the small cell problem that involve modifying the mesh or the numerical schemes
 * later in the talk, I will show another difficulty with cut cell meshes
 
-* (show section conclusion slide), conclude section #2
-
 
 
 Slanted cell meshes
@@ -70,8 +61,6 @@ Slanted cell meshes
 * show example of a slanted cell mesh over another idealised mountain
 * constructed by moving vertices up/down, snapping them to the terrain
 * (show with wind field) -- unlike cut cell meshes, the thin cells are still long in the direction of the flow
-
-* (show section conclusion slide), conclude section #3
 
 
 Multidimensional advection scheme
@@ -95,15 +84,12 @@ Explicit, Eulerian, multidimensional advection scheme
   - this is the yellow lollipop in the animation
 
 * Near the boundaries, we may not have sufficient data to fit the entire polynomial
-  - (show inlet boundary slide) we have 9 knowns and 9 unknowns, ASK AUDIENCE: do you think, then, that we can fit this polynomial?
-  - (next slide) answer: NO, we don't have sufficient information to fit the x^3 term
-  - (next slide) as well as the inlet boundary, there may not be enough data near the lower boundary
+  - (next slide) there may not be enough data near the lower boundary
     * in this example, heavy purple lines show faces where we cannot fit all 9 terms
 
 * I'm currently modifying the advection scheme to cope with such situations and identify which terms of polynomial to remove
 
-* (show section conclusion slide), conclude section #4
-  - this "adaptive polynomial fit" is work-in-progress, and I'll show some preliminary results later in the talk
+* this "adaptive polynomial fit" is work-in-progress, and I'll show some preliminary results later in the talk
 
 
 Thermal advection test
@@ -116,10 +102,9 @@ Early we saw an advection test of a tracer blob in a horizontal wind field.  We 
 	- we prescribe a wind field that is parallel to the terrain following surfaces
 
 * This test is designed to mimic the advection of potential temperature in a complete atmospheric dynamical core
-* It has an analytic solution, so we can calculate numerical errors
 * Unlike the tracer blob horizontal advection test, this new test:
 	- has advection at the lower boundary
-	- has a wind field that has a vertical as well as horizontal component.  This presents a challenge to the advection scheme on more orthogonal meshes.
+* It has an analytic solution, so we can calculate numerical errors
 
 **Results**
 
@@ -135,28 +120,9 @@ Early we saw an advection test of a tracer blob in a horizontal wind field.  We 
   - (next slide) YES: solution is now stable on the cut cell mesh
   - errors are much smaller on the slanted cell mesh (compared with bottom panel)
 
-* (show summary table) Summarize: 
-  - this test present little challenge to the BTF meshes
-  - but it does challenge the more orthogonal meshes
-  - we need to use the adaptive polynomial fit to achieve stability and improve accuracy
-
-* These results used Courant numbers very close to 1 (the maximum permitted)
-  - (show timestep slide) slanted cell meshes allow timesteps comparable to BTF, avoids the small cell problem on the cut cell mesh
-
 * So why not use the BTF grid?
   - we need to remember those pressure gradient errors
   - (show slide) spurious circulations on the slanted cell mesh are even smaller than the cut cell mesh!
-
-
-Numerical representation of orography in dynamical cores
---------------------------------------------------------
-
-We've looked at:
-1. some effects that orography has on the weather
-2. some existing types of mesh, and looked at advection errors and pressure gradient errors
-3. we presented a new "slanted cell mesh" that seeks to reduce these errors
-4. and an "adaptive polynomial fit" to improve stability and accuracy of our advection scheme
-5. we evaluated our advection scheme and our slanted cell mesh in a new advection test
 
 
 Conclusions
